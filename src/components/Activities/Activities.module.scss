@@ -1,0 +1,41 @@
+@import "../../assets/styles/variables";
+.activities-container {
+  background-color: #fff;
+  width: 30%;
+  border-radius: 1rem;
+  border: 1px solid #00000033;
+  padding: 2rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.084);
+}
+
+.activities-box {
+  width: 100%;
+  // overflow: scroll;
+  overflow-y: auto;
+  max-height: 51rem;
+}
+
+.activities {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  &-heading {
+    font-style: "Roboto", sans-serif;
+    font-weight: 500;
+    font-size: 1.8rem;
+    line-height: 2.4rem;
+    // padding: 1.6rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    // border-bottom: $border-grey;
+  }
+}
+
+.activities a {
+  text-decoration: none;
+}
+
+.activities a:hover,
+.activities a.active {
+  background-color: #e57373;
+}

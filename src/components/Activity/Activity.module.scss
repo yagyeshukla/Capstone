@@ -1,0 +1,41 @@
+$alert-background-color: #ffdddd;
+$alert-border-color: #f44336bd;
+$alert-text-color: #d8000be4;
+$alert-icon-color: #f44336bf;
+$alert-border-radius: 0.8rem;
+$alert-padding: 1.8rem;
+$alert-margin-bottom: 1.2rem;
+$alert-box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+.activity {
+  // font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  // padding: 1.5rem;
+  // border-bottom: 1px solid #000;
+  // background-color: rgb(253, 237, 237);
+
+  //Test
+  background-color: $alert-background-color;
+  border-left: 6px solid $alert-border-color;
+  border-radius: $alert-border-radius;
+  padding: $alert-padding;
+  margin-bottom: $alert-margin-bottom;
+  box-shadow: $alert-box-shadow;
+  transition: transform 0.2s ease-in-out;
+  cursor: pointer;
+
+  &-icon {
+    margin-right: 1rem;
+    width: 25px;
+    height: 25px;
+    color: $alert-icon-color;
+  }
+  &-description {
+    color: $alert-text-color;
+    font-size: 1.6rem;
+  }
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
