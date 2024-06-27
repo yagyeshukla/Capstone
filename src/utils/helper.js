@@ -13,4 +13,15 @@ const formatTime = (date) => {
   });
 };
 
-export { formatDate, formatTime };
+function extractUsername(email) {
+  if (typeof email !== "string") {
+    throw new Error("The provided input is not a valid string");
+  }
+  const parts = email.split("@");
+  if (parts.length !== 2) {
+    throw new Error("The provided input is not a valid email address");
+  }
+  return parts[0];
+}
+
+export { formatDate, formatTime, extractUsername };

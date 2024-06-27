@@ -1,5 +1,5 @@
 import classes from "./StatCard.module.scss";
-export default function StatCard({ label, score, Icon }) {
+export default function StatCard({ label, score, Icon, color,unit }) {
   let labelClass;
   if (score === "BAD") labelClass = "bad";
   if (score === "OK") labelClass = "ok";
@@ -7,7 +7,7 @@ export default function StatCard({ label, score, Icon }) {
   if (score === "EXCELLENT") labelClass = "excellent";
 
   if (typeof score === "number") {
-    if (!Number.isInteger(score)) score = `${score.toFixed(2)}%`;
+    if (!Number.isInteger(score)) score = `${score.toFixed(2)} ${unit}`;
   }
   return (
     <li className={classes.stats}>
@@ -21,7 +21,7 @@ export default function StatCard({ label, score, Icon }) {
           {score}
         </p>
       </div>
-      <Icon className={classes.stats__icon} />
+      <Icon className={`${classes[`stats__icon_${color}`]}`} />
     </li>
   );
 }

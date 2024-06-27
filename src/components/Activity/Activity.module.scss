@@ -1,6 +1,6 @@
-$alert-background-color: #ffdddd;
-$alert-border-color: #f44336bd;
-$alert-text-color: #d8000be4;
+$alert-background-color: #ffddddcb;
+$alert-border-color: #f443369b;
+$alert-text-color: #d8000bbc;
 $alert-icon-color: #f44336bf;
 $alert-border-radius: 0.8rem;
 $alert-padding: 1.8rem;
@@ -8,34 +8,77 @@ $alert-margin-bottom: 1.2rem;
 $alert-box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
 .activity {
-  // font-size: 1.3rem;
   display: flex;
-  align-items: center;
-  // padding: 1.5rem;
-  // border-bottom: 1px solid #000;
-  // background-color: rgb(253, 237, 237);
-
-  //Test
-  background-color: $alert-background-color;
-  border-left: 6px solid $alert-border-color;
+  // align-items: center;
+  // background-color: $alert-background-color;
+  // border-left: 6px solid $alert-border-color;
   border-radius: $alert-border-radius;
   padding: $alert-padding;
   margin-bottom: $alert-margin-bottom;
   box-shadow: $alert-box-shadow;
-  transition: transform 0.2s ease-in-out;
   cursor: pointer;
 
   &-icon {
-    margin-right: 1rem;
+    margin-top: 0.3rem;
+    margin-right: 1.5rem;
     width: 25px;
     height: 25px;
-    color: $alert-icon-color;
+    // color: $alert-icon-color;
+    padding: 0.3rem;
   }
   &-description {
-    color: $alert-text-color;
-    font-size: 1.6rem;
+    width: 100%;
+    // color: $alert-text-color;
+    font-size: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  &_heading {
+    font-size: 1.8rem;
   }
   &:hover {
     transform: translateY(-2px);
   }
+  /////
+  transition: background-color 0.5s ease-in-out, transform 0.5s ease-in-out,
+    opacity 0.5s ease-in-out;
+
+  &.newAlert {
+    margin-bottom: $alert-margin-bottom;
+  }
+
+  &.slideIn {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  &.initial {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  &.moveDown {
+    transition: transform 0.5s ease-in-out;
+  }
+}
+.activity_info {
+  display: flex;
+  justify-content: space-between;
+  color: #000;
+}
+
+.high {
+  background-color: $alert-background-color;
+  border-left: 6px solid $alert-border-color;
+  color: $alert-text-color;
+}
+.medium {
+  background-color: #fffbe6;
+  border-left: 6px solid #faad14;
+  color: #faad14;
+}
+.low {
+  background-color: #e6f4ff;
+  border-left: 6px solid #1677ff;
+  color: #1677ff;
 }

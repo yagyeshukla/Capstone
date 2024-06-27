@@ -10,9 +10,60 @@ import { LuForklift } from "react-icons/lu";
 import classes from "./Sidebar.module.scss";
 import { useState } from "react";
 
+import axios from "axios";
+
 function Sidebar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
+  const contentPPE = (
+    <div>
+      <p>PPE</p>
+    </div>
+  );
+  const contentForklift = (
+    <div>
+      <p>Forklift</p>
+    </div>
+  );
+
+  const handlePpeClick = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8082/video/start",
+        new URLSearchParams({
+          source: "src/main/resources/helmet.mp4",
+          type: "rtmp",
+        }),
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      );
+      console.log("Response:", response.data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+  const handleForkliftClick = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8082/video/start",
+        new URLSearchParams({
+          source: "src/main/resources/forklift_final.mp4",
+          type: "rtmp",
+        }),
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      );
+      console.log("Response:", response.data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
   function handleSidebarIconClick() {
     setIsSidebarOpen((prevState) => !prevState);
   }
@@ -45,16 +96,20 @@ function Sidebar() {
           )}
         </div>
         <SidebarItem
-          to="/dashboard"
+          to="/dashboard-ppe"
           Icon={FiHome}
-          label="Dashboard"
+          label="Dashboard PPE"
           isCollapsed={!isSidebarOpen}
+          content={contentPPE}
+          handleClick={handlePpeClick}
         />
         <SidebarItem
-          to="/forklift"
+          to="/dashboard-forklift"
           Icon={LuForklift}
-          label="Camera"
+          label="Dashboard Forklift"
           isCollapsed={!isSidebarOpen}
+          content={contentForklift}
+          handleClick={handleForkliftClick}
         />
       </ul>
     </nav>

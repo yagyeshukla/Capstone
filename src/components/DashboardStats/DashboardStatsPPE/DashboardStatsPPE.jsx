@@ -1,32 +1,22 @@
 import { useState, useContext, useEffect } from "react";
 
-import StatCard from "../StatCard/StatCard";
+import StatCard from "../../StatCard/StatCard";
 
-import { WebSocketContext } from "../../store/WebSocketContext";
+import { WebSocketContext } from "../../../store/WebSocketContext";
 
-import classes from "./DashboardStats.module.scss";
+import classes from "./DashboardStatsPPE.module.scss";
 
 import { FiBarChart } from "react-icons/fi";
 import { FiActivity } from "react-icons/fi";
-import { ImStatsBars2 } from "react-icons/im";
 import { FiTrendingUp } from "react-icons/fi";
 
-export default function DashboardStats() {
+export default function DashboardStatsPPE() {
   const [cardValues, setCardValues] = useState({
     total_violation: 0,
     safety_score: 0,
     safety_conditions: "",
   });
-  // const ws = useContext(WebSocketContext);
-  const json = useContext(WebSocketContext);
-
-  // useEffect(() => {
-  //   if (ws) {
-  //     ws.onmessage = function (event) {
-  //       setScore((prevScore) => prevScore + 1);
-  //     };
-  //   }
-  // }, [ws]);
+  const { json } = useContext(WebSocketContext);
 
   useEffect(() => {
     if (json) {
@@ -45,16 +35,22 @@ export default function DashboardStats() {
         label="Total Violations"
         score={cardValues.total_violation}
         Icon={FiBarChart}
+        color="yellow"
+        unit = ""
       />
       <StatCard
         label="Safety Score"
         score={cardValues.safety_score}
         Icon={FiActivity}
+        color="yellow"
+        unit = "%"
       />
       <StatCard
         label="Safety Conditions"
         score={cardValues.safety_conditions}
-        Icon={ImStatsBars2}
+        Icon={FiTrendingUp}
+        color="yellow"
+        unit = ""
       />
       {/* <StatCard label="Incident frequency" score={56} Icon={FiTrendingUp} /> */}
     </ul>

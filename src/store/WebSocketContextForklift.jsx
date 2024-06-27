@@ -1,11 +1,13 @@
 import { createContext, useEffect, useState } from "react";
 
-export const WebSocketContext = createContext(null);
+export const WebSocketContextForklift = createContext(null);
 
-export default function WebSocketContextProvider({ children }) {
+export default function WebSocketContextForkliftProvider({ children }) {
+  const [loading, setLoading] = useState(false);
   const [json, setJson] = useState();
   useEffect(() => {
-    const ws = new WebSocket("ws://localhost:8080/ppe-streaming");
+    setLoading(true);
+    const ws = new WebSocket("ws://localhost:8083/forklift-streaming");
 
     ws.onopen = function (event) {
       console.log("Connection is open");
@@ -16,11 +18,12 @@ export default function WebSocketContextProvider({ children }) {
         setJson(jsonRecieved);
       };
     };
+    setLoading(false);
   }, []);
 
   return (
-    <WebSocketContext.Provider value={{ json: json}}>
+    <WebSocketContextForklift.Provider value={{ json: json, loading }}>
       {children}
-    </WebSocketContext.Provider>
+    </WebSocketContextForklift.Provider>
   );
 }

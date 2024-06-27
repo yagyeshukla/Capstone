@@ -25,10 +25,10 @@ const LiveStreamVideoHeader = () => {
         <p className={classes.live}>Live</p>
       </div>
       <div className={classes.dateTimeContainer}>
-        <div className={classes.date}>
+        {/* <div className={classes.date}>
           <FiCalendar className={classes.icon} />
           {formattedDate}
-        </div>
+        </div> */}
         <div className={classes.time}>
           <FiClock className={classes.icon} />
           {formattedTime}

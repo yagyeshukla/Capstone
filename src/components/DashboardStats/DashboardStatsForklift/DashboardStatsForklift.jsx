@@ -1,32 +1,22 @@
 import { useState, useContext, useEffect } from "react";
 
-import StatCard from "../StatCard/StatCard";
+import StatCard from "../../StatCard/StatCard";
 
-import { WebSocketContext } from "../../store/WebSocketContext";
+import {WebSocketContextForklift} from "../../../store/WebSocketContextForklift";
 
-import classes from "./DashboardStats.module.scss";
+import classes from "./DashboardStatsForklift.module.scss";
 
 import { FiBarChart } from "react-icons/fi";
 import { FiActivity } from "react-icons/fi";
-import { ImStatsBars2 } from "react-icons/im";
 import { FiTrendingUp } from "react-icons/fi";
 
-export default function DashboardStats() {
+export default function DashboardStatsForklift() {
   const [cardValues, setCardValues] = useState({
     minimum_distance: 0,
     average_distance: 0,
     proximity_score: "",
   });
-  // const ws = useContext(WebSocketContext);
-  const json = useContext(WebSocketContext);
-
-  // useEffect(() => {
-  //   if (ws) {
-  //     ws.onmessage = function (event) {
-  //       setScore((prevScore) => prevScore + 1);
-  //     };
-  //   }
-  // }, [ws]);
+  const { json } = useContext(WebSocketContextForklift);
 
   useEffect(() => {
     if (json) {
@@ -45,18 +35,23 @@ export default function DashboardStats() {
         label="Minimum Distance"
         score={cardValues.minimum_distance}
         Icon={FiBarChart}
+        color="yellow"
+        unit = "px"
       />
       <StatCard
         label="Average Distance"
         score={cardValues.average_distance}
         Icon={FiActivity}
+        color="yellow"
+        unit = "px"
       />
       <StatCard
         label="Proximity Score"
         score={cardValues.proximity_score}
-        Icon={ImStatsBars2}
+        Icon={FiTrendingUp}
+        color="yellow"
+        unit = ""
       />
-      <StatCard label="TBD" score={56} Icon={FiTrendingUp} />
     </ul>
   );
 }

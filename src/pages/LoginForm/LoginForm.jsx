@@ -1,15 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
 import InputField from "../../components/ui/InputField/InputField";
 import Button from "../../components/ui/ButtonLogin/ButtonLogin";
 import GoogleSignInButton from "../../components/ui/GoogleSignInButton/GoogleSignInButton";
 import classes from "./LoginForm.module.scss";
 import Header from "../../components/Header/Header";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { isEmail, hasMinLength, isNotEmpty } from "../../utils/validation";
 import useInput from "../../hooks/useInput";
+import { AuthContext } from "../../store/AuthContext";
 
 const LoginForm = () => {
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
   const {
     value: emailValue,
     handleInputChange: handleEmailChange,
@@ -26,11 +29,17 @@ const LoginForm = () => {
 
   function handleSubmit(e) {
     e.preventDefault();
-
-    console.log(emailValue, passwordValue);
+    const userData = { emailValue };
+    login(userData);
+    navigate("/select-useCase");
   }
 
-  const handleLogin = () => {};
+  const handleLogin = () => {
+    // const userData = { emailValue };
+    // login(userData);
+    // // navigate("/dashboard-ppe");
+    // navigate("/select-useCase");
+  };
 
   const handleGoogleSignIn = () => {};
 
@@ -57,12 +66,12 @@ const LoginForm = () => {
           onBlur={handlePasswordBlur}
           value={passwordValue}
           onChange={handlePasswordChange}
-          error={passwordHasError && "Please enter valid password"}
+          // error={passwordHasError && "Please enter valid password(Length>6)"}
           placeholder="Password"
         />
-        <Link to="/dashboard">
-          <Button onClick={handleLogin}>CONTINUE</Button>
-        </Link>
+        <Button onClick={handleLogin} type="submit">
+          CONTINUE
+        </Button>
 
         <div className={classes.orDivider}>
           <hr />

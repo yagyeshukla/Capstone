@@ -1,7 +1,7 @@
 @import "../../assets/styles/variables";
 .activities-container {
   background-color: #fff;
-  width: 30%;
+  width: 27%;
   border-radius: 1rem;
   border: 1px solid #00000033;
   padding: 2rem;
@@ -10,9 +10,10 @@
 
 .activities-box {
   width: 100%;
-  // overflow: scroll;
   overflow-y: auto;
-  max-height: 51rem;
+  overflow-x: hidden;
+  // max-height: 66rem;
+  max-height: 77vh;
 }
 
 .activities {
@@ -22,12 +23,10 @@
   &-heading {
     font-style: "Roboto", sans-serif;
     font-weight: 500;
-    font-size: 1.8rem;
+    font-size: 2rem;
     line-height: 2.4rem;
-    // padding: 1.6rem;
-    margin-bottom: 2rem;
+    padding-bottom: 1.6rem;
     text-align: center;
-    // border-bottom: $border-grey;
   }
 }
 
@@ -38,4 +37,35 @@
 .activities a:hover,
 .activities a.active {
   background-color: #e57373;
+}
+.notificationIcon {
+  height: 2.4rem;
+  width: 2.4rem;
+}
+.filterIcon {
+  height: 2.4rem;
+  width: 2.4rem;
+  margin-right: 2rem;
+  cursor: pointer;
+}
+.alertHeader {
+  border-bottom: $border-grey;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 2rem 0 1.5rem;
+  margin-bottom: 1rem;
+}
+.zoom {
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 85.5vh;
+}
+.zoom2 {
+  width: 22%;
+  background-color: #fff;
+  // width: 27%;
+  border-radius: 1rem;
+  border: 1px solid #00000033;
+  padding: 2rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.084);
 }

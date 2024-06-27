@@ -1,10 +1,14 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import AlertDocumentationPage from "./pages/AlertDocumentationPage";
-import Root from "./pages/Root";
-import Root2 from "./pages/Root2";
+import AlertDocumentationPage from "./pages/AlertDocumentation/AlertDocumentationPage";
+import RootPPE from "./pages/RootPPE/RootPPe";
+import RootForklift from "./pages/RootForklift/RootForklift";
 import ZoomContextProvider from "./store/ZoomContext";
 import Login from "./pages/LoginForm/LoginForm";
+import AuthProvider from "./store/AuthContext";
+import SelectUseCase from "./pages/SelectPage/SelectUseCase";
+import WebSocketContextProvider from "./store/WebSocketContext";
+import WebSocketContextForkliftProvider from "./store/WebSocketContextForklift";
 
 const router = createBrowserRouter([
   {
@@ -12,28 +16,36 @@ const router = createBrowserRouter([
     element: <Login />,
   },
   {
-    path: "/dashboard",
-    element: <Root />,
+    path: "/dashboard-ppe",
+    element: <RootPPE />,
   },
   {
-    path: "/login",
-    element: <Login />,
-  },
-  {
-    path: "/forklift",
-    element: <Root2 />,
+    path: "/dashboard-forklift",
+    element: <RootForklift />,
   },
   {
     path: "/alert/:alertId",
     element: <AlertDocumentationPage />,
   },
+  {
+    path: "/select-useCase",
+    element: <SelectUseCase />,
+  },
 ]);
 
 function App() {
   return (
-    <ZoomContextProvider>
-      <RouterProvider router={router} />
-    </ZoomContextProvider>
+    <WebSocketContextForkliftProvider>
+      <WebSocketContextProvider>
+      <AuthProvider>
+      <ZoomContextProvider>
+        <RouterProvider router={router} />
+      </ZoomContextProvider>
+    </AuthProvider>
+    </WebSocketContextProvider>
+    </WebSocketContextForkliftProvider>
+    
+    
   );
 }
 
