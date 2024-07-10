@@ -3,82 +3,74 @@ $alert-border-color: #f443369b;
 $alert-text-color: #d8000bbc;
 $alert-icon-color: #f44336bf;
 $alert-border-radius: 0.8rem;
-$alert-padding: 1.8rem;
-$alert-margin-bottom: 1.2rem;
-$alert-box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
 .activity {
   display: flex;
-  // align-items: center;
-  // background-color: $alert-background-color;
-  // border-left: 6px solid $alert-border-color;
-  border-radius: $alert-border-radius;
-  padding: $alert-padding;
-  margin-bottom: $alert-margin-bottom;
-  box-shadow: $alert-box-shadow;
+  padding: 2rem 2.5rem 1.6rem 1.5rem;
+  border-bottom: 1px solid #ebebeb;
   cursor: pointer;
 
   &-icon {
     margin-top: 0.3rem;
     margin-right: 1.5rem;
-    width: 25px;
-    height: 25px;
-    // color: $alert-icon-color;
+    width: 35px;
+    height: 35px;
     padding: 0.3rem;
+    color: #000000b5;
   }
   &-description {
     width: 100%;
-    // color: $alert-text-color;
     font-size: 1.5rem;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 1.8rem;
   }
   &_heading {
     font-size: 1.8rem;
+    color: #000000e6;
   }
   &:hover {
     transform: translateY(-2px);
   }
-  /////
-  transition: background-color 0.5s ease-in-out, transform 0.5s ease-in-out,
-    opacity 0.5s ease-in-out;
-
-  &.newAlert {
-    margin-bottom: $alert-margin-bottom;
-  }
-
-  &.slideIn {
-    transform: translateX(0);
-    opacity: 1;
-  }
-
-  &.initial {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-  &.moveDown {
-    transition: transform 0.5s ease-in-out;
-  }
+  transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out,
+    opacity 0.3s ease-in-out;
 }
 .activity_info {
   display: flex;
   justify-content: space-between;
-  color: #000;
+  // color: #000;
+  color: #00000073;
+  // background: #00000073;
+}
+
+.severityLabel {
+  display: flex;
+  align-items: center;
+  font-size: 16px; // Adjust as needed
+  color: #666; // Adjust as needed
+}
+
+.severityDot {
+  width: 13px; // Adjust as needed
+  height: 13px; // Adjust as needed
+  border-radius: 50%;
+  margin-right: 8px; // Adjust as needed
 }
 
 .high {
-  background-color: $alert-background-color;
-  border-left: 6px solid $alert-border-color;
-  color: $alert-text-color;
+  background-color: $alert-text-color;
 }
 .medium {
-  background-color: #fffbe6;
-  border-left: 6px solid #faad14;
-  color: #faad14;
+  background-color: #faad14;
 }
 .low {
-  background-color: #e6f4ff;
-  border-left: 6px solid #1677ff;
-  color: #1677ff;
+  background-color: #1677ff;
+}
+//Media queries
+@media (max-width: 1000px) {
+  .activity_info {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
 }

@@ -1,14 +1,21 @@
 import React from "react";
 import classes from "./CardButton.module.scss";
 
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { Card } from "antd";
 
 const CardButton = ({ text, to, handleClick }) => {
+  const navigate = useNavigate();
   return (
     <div className={`${classes.cardContainer} `}>
-      <Link to={to} onClick={handleClick}>
+      <button
+        to={to}
+        onClick={() => {
+          handleClick();
+          navigate(to);
+        }}
+      >
         <Card
           hoverable
           className={classes.card}
@@ -24,7 +31,7 @@ const CardButton = ({ text, to, handleClick }) => {
         >
           <p className={classes.cardText}>{text}</p>
         </Card>
-      </Link>
+      </button>
     </div>
   );
 };

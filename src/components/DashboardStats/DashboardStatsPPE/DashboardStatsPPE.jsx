@@ -10,6 +10,9 @@ import { FiBarChart } from "react-icons/fi";
 import { FiActivity } from "react-icons/fi";
 import { FiTrendingUp } from "react-icons/fi";
 
+import { Progress } from "antd";
+import { Gauge } from "@mui/x-charts/Gauge";
+
 export default function DashboardStatsPPE() {
   const [cardValues, setCardValues] = useState({
     total_violation: 0,
@@ -36,21 +39,25 @@ export default function DashboardStatsPPE() {
         score={cardValues.total_violation}
         Icon={FiBarChart}
         color="yellow"
-        unit = ""
+        unit=""
+        Progress={undefined}
       />
       <StatCard
         label="Safety Score"
         score={cardValues.safety_score}
         Icon={FiActivity}
         color="yellow"
-        unit = "%"
+        unit="%"
+        // Progress={Progress}
+        Progress={Gauge}
       />
       <StatCard
         label="Safety Conditions"
         score={cardValues.safety_conditions}
         Icon={FiTrendingUp}
         color="yellow"
-        unit = ""
+        unit=""
+        Progress={undefined}
       />
       {/* <StatCard label="Incident frequency" score={56} Icon={FiTrendingUp} /> */}
     </ul>

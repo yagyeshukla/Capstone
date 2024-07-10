@@ -4,7 +4,6 @@
   width: 27%;
   border-radius: 1rem;
   border: 1px solid #00000033;
-  padding: 2rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.084);
 }
 
@@ -13,7 +12,8 @@
   overflow-y: auto;
   overflow-x: hidden;
   // max-height: 66rem;
-  max-height: 77vh;
+  max-height: 83.3vh;
+  border-bottom: 1px solid #00000033;
 }
 
 .activities {
@@ -25,19 +25,10 @@
     font-weight: 500;
     font-size: 2rem;
     line-height: 2.4rem;
-    padding-bottom: 1.6rem;
     text-align: center;
   }
 }
 
-.activities a {
-  text-decoration: none;
-}
-
-.activities a:hover,
-.activities a.active {
-  background-color: #e57373;
-}
 .notificationIcon {
   height: 2.4rem;
   width: 2.4rem;
@@ -52,20 +43,18 @@
   border-bottom: $border-grey;
   display: flex;
   justify-content: space-between;
-  padding: 0 2rem 0 1.5rem;
-  margin-bottom: 1rem;
+  padding: 2.3rem 3.5rem 1.3rem 2.4rem;
 }
 .zoom {
   overflow-y: auto;
   overflow-x: hidden;
-  max-height: 85.5vh;
+  max-height: 87vh;
+  border-bottom: 1px solid #00000033;
 }
 .zoom2 {
   width: 22%;
-  background-color: #fff;
-  // width: 27%;
   border-radius: 1rem;
   border: 1px solid #00000033;
-  padding: 2rem;
+  background-color: #fff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.084);
 }

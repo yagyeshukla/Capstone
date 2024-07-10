@@ -47,7 +47,7 @@ const LoginForm = () => {
     <div className={classes.container}>
       <Header />
       <form className={classes.loginForm} onSubmit={handleSubmit}>
-        <h1 className={classes.heading}>Welcome to CV</h1>
+        <h1 className={classes.heading}>Welcome to Incident Management</h1>
         <p className={classes.para}>
           Please log in to your account to start using the application
         </p>

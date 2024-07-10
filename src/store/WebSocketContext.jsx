@@ -5,7 +5,8 @@ export const WebSocketContext = createContext(null);
 export default function WebSocketContextProvider({ children }) {
   const [json, setJson] = useState();
   useEffect(() => {
-    const ws = new WebSocket("ws://localhost:8080/ppe-streaming");
+    const ws = new WebSocket("ws://localhost:3000");
+    // const ws = new WebSocket("ws://localhost:8080/ppe-streaming");
 
     ws.onopen = function (event) {
       console.log("Connection is open");
@@ -19,7 +20,7 @@ export default function WebSocketContextProvider({ children }) {
   }, []);
 
   return (
-    <WebSocketContext.Provider value={{ json: json}}>
+    <WebSocketContext.Provider value={{ json: json }}>
       {children}
     </WebSocketContext.Provider>
   );

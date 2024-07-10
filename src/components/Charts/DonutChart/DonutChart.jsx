@@ -40,18 +40,18 @@ const DonutChart = () => {
   }, [json]);
 
   const data = {
-    labels: ["High", "Low", "Medium"],
+    labels: ["High", "Medium", "Low"],
     datasets: [
       {
-        data: [high, low, medium],
-        backgroundColor: ["#ff4d55", "#1677ff", "#faad14"],
-        hoverBackgroundColor: ["#ff333d", "#36A2EB", "#FFCE56"],
+        data: [high, medium, low],
+        backgroundColor: ["#ff4d55", "#faad14", "#1677ff"],
+        hoverBackgroundColor: ["#ff333d", "#FFCE56", , "#36A2EB"],
       },
     ],
   };
   return (
     <div
-      style={{ width: "200px", height: "200px" }}
+      // style={{ width: "200px", height: "200px" }}
       className={classes.donutChart}
     >
       <Doughnut data={data} options={options} />

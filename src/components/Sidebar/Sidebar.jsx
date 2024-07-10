@@ -1,5 +1,5 @@
 import SidebarItem from "../SidebarItem/SidebarItem";
-import Button from "../ui/Button/Button";
+import ButtonCustom from "../ui/Button/ButtonCustom";
 // import homeIcon from "../../assets/icons/home.svg";
 import { FiHome } from "react-icons/fi";
 import { FiCamera } from "react-icons/fi";
@@ -10,7 +10,7 @@ import { LuForklift } from "react-icons/lu";
 import classes from "./Sidebar.module.scss";
 import { useState } from "react";
 
-import axios from "axios";
+import { handlePpeClick, handleForkliftClick } from "../../utils/http";
 
 function Sidebar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -26,44 +26,6 @@ function Sidebar() {
     </div>
   );
 
-  const handlePpeClick = async () => {
-    try {
-      const response = await axios.post(
-        "http://localhost:8082/video/start",
-        new URLSearchParams({
-          source: "src/main/resources/helmet.mp4",
-          type: "rtmp",
-        }),
-        {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-        }
-      );
-      console.log("Response:", response.data);
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
-  const handleForkliftClick = async () => {
-    try {
-      const response = await axios.post(
-        "http://localhost:8082/video/start",
-        new URLSearchParams({
-          source: "src/main/resources/forklift_final.mp4",
-          type: "rtmp",
-        }),
-        {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-        }
-      );
-      console.log("Response:", response.data);
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
   function handleSidebarIconClick() {
     setIsSidebarOpen((prevState) => !prevState);
   }
@@ -81,7 +43,7 @@ function Sidebar() {
               : classes.sidebarHeader__close
           }
         >
-          <Button
+          <ButtonCustom
             icon={
               isSidebarOpen ? (
                 <GoSidebarExpand className={classes.expandIcon} />
@@ -90,7 +52,7 @@ function Sidebar() {
               )
             }
             handleClick={handleSidebarIconClick}
-          ></Button>
+          ></ButtonCustom>
           {isSidebarOpen && (
             <p className={classes["sidebarHeader__title"]}>Sidebar</p>
           )}

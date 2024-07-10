@@ -49,12 +49,10 @@ function Header() {
         theme={{
           components: {
             Modal: {
-              /* here is your component tokens */
               titleLineHeight: "2rem",
             },
           },
           token: {
-            /* here is your global tokens */
             fontSizeHeading5: "2rem",
             fontWeightStrong: 400,
             paddingLG: "25rem",
