@@ -5,8 +5,7 @@ export const WebSocketContextForklift = createContext(null);
 export default function WebSocketContextForkliftProvider({ children }) {
   const [json, setJson] = useState();
   useEffect(() => {
-    // const ws = new WebSocket("ws://localhost:8083/forklift-streaming");
-    const ws = new WebSocket("ws://localhost:3000");
+    const ws = new WebSocket("ws://localhost:8083/forklift-streaming");
 
     ws.onopen = function (event) {
       console.log("Connection is open");

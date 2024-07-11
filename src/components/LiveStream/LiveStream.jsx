@@ -21,8 +21,7 @@ export default function LiveStream({ isZoomed, handleZoomClick, useCase }) {
   useEffect(() => {
     if (json) {
       const { frame_url } = json;
-      // const imgUrl = `../../../backend/ModelService/resources/detected_frames/${frame_url}`;
-      const imgUrl = `../../${frame_url}`;
+      const imgUrl = `../../../backend/ModelService/resources/detected_frames/${frame_url}`;
       setFrameUrl((prevUrls) => [...prevUrls, imgUrl]);
     }
   }, [json]);

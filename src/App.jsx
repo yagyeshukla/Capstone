@@ -9,6 +9,8 @@ import AuthProvider from "./store/AuthContext";
 import SelectUseCase from "./pages/SelectPage/SelectUseCase";
 import WebSocketContextProvider from "./store/WebSocketContext";
 import WebSocketContextForkliftProvider from "./store/WebSocketContextForklift";
+import { AlertsProvider } from "./store/AlertsContext";
+import { LoadingProvider } from "./store/LoadingContext";
 
 const router = createBrowserRouter([
   {
@@ -35,7 +37,9 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <WebSocketContextForkliftProvider>
+    <LoadingProvider>
+      <AlertsProvider>
+      <WebSocketContextForkliftProvider>
       <WebSocketContextProvider>
       <AuthProvider>
       <ZoomContextProvider>
@@ -44,6 +48,10 @@ function App() {
     </AuthProvider>
     </WebSocketContextProvider>
     </WebSocketContextForkliftProvider>
+    </AlertsProvider>
+    </LoadingProvider>
+    
+    
     
     
   );

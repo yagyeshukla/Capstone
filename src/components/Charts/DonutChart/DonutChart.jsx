@@ -27,15 +27,18 @@ const DonutChart = () => {
   useEffect(() => {
     if (json) {
       const { json: cardJson } = json;
-      if (cardJson.severity_level === "high") {
-        setHigh((prev) => prev + 1);
+      if(cardJson.category==='alert'){
+        if (cardJson.severity_level === "high") {
+          setHigh((prev) => prev + 1);
+        }
+        if (cardJson.severity_level === "medium") {
+          setMedium((prev) => prev + 1);
+        }
+        if (cardJson.severity_level === "low") {
+          setLow((prev) => prev + 1);
+        }
       }
-      if (cardJson.severity_level === "medium") {
-        setMedium((prev) => prev + 1);
-      }
-      if (cardJson.severity_level === "low") {
-        setLow((prev) => prev + 1);
-      }
+      
     }
   }, [json]);
 

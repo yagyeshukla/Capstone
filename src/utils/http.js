@@ -1,5 +1,17 @@
 import axios from "axios";
+import {useContext} from "react";
+import { LoadingContext} from "../store/LoadingContext";
+function stopStreaming(type) {
+  axios.post('/video/stop', new URLSearchParams({ type }))
+      .then(response => {
+          console.log(response.data); 
+      })
+      .catch(error => {
+          console.error('Error stopping streaming:', error);
+      });
+}
 const handlePpeClick = async () => {
+  stopStreaming('rtmp');
   try {
     const response = await axios.post(
       "http://localhost:8082/video/start",
@@ -20,6 +32,7 @@ const handlePpeClick = async () => {
 };
 
 const handleForkliftClick = async () => {
+  stopStreaming('rtmp');
   try {
     const response = await axios.post(
       "http://localhost:8082/video/start",

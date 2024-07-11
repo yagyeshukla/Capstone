@@ -1,7 +1,4 @@
-import { useEffect, useState } from "react";
 import { Flex } from "antd";
-import { GoAlertFill } from "react-icons/go";
-import { InfoCircleOutlined } from "@ant-design/icons";
 import { IoAlertCircleOutline } from "react-icons/io5";
 
 import classes from "./Activity.module.scss";
@@ -15,7 +12,6 @@ export default function Activity({ severity, alert }) {
 
   return (
     <li className={`${classes.activity}`}>
-      {/* <GoAlertFill className={classes["activity-icon"]} /> */}
       <IoAlertCircleOutline className={classes["activity-icon"]} />
       <div className={classes["activity-description"]}>
         <Flex justify="space-between">

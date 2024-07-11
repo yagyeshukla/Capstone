@@ -37,11 +37,10 @@ const LiveStreamVideoFooter = ({ isZoomed, handleZoomClick, useCase }) => {
   return (
     <div className={classes.footer}>
       <Flex wrap>
-        <ConfigProvider
+        {/* <ConfigProvider
           theme={{
             components: {
               Button: {
-                /* here is your component tokens */
                 defaultActiveBorderColor: "none",
                 defaultHoverBg: "transparent",
                 defaultHoverColor: "#4096ff",
@@ -64,7 +63,7 @@ const LiveStreamVideoFooter = ({ isZoomed, handleZoomClick, useCase }) => {
               }}
             />
           </Tooltip>
-        </ConfigProvider>
+        </ConfigProvider> */}
         <ConfigProvider
           theme={{
             components: {

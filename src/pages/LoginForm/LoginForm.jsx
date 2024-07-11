@@ -35,10 +35,6 @@ const LoginForm = () => {
   }
 
   const handleLogin = () => {
-    // const userData = { emailValue };
-    // login(userData);
-    // // navigate("/dashboard-ppe");
-    // navigate("/select-useCase");
   };
 
   const handleGoogleSignIn = () => {};
@@ -73,12 +69,12 @@ const LoginForm = () => {
           CONTINUE
         </Button>
 
-        <div className={classes.orDivider}>
+        {/* <div className={classes.orDivider}>
           <hr />
           <span>OR</span>
           <hr />
-        </div>
-        <GoogleSignInButton onClick={handleGoogleSignIn} />
+        </div> */}
+        {/* <GoogleSignInButton onClick={handleGoogleSignIn} /> */}
       </form>
       <p className={classes.footer}>Terms of Service | Privacy Policy</p>
     </div>

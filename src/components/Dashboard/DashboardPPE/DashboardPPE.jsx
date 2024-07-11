@@ -22,10 +22,6 @@ export default function DashboardPPE() {
           />
         </div>
         <Activities useCase="ppe" />
-        {/* <div className={classes.chartContainer}>
-          <DonutChart />
-          <LineChart />
-        </div> */}
       </main>
     </>
   );

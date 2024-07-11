@@ -2,15 +2,14 @@ import { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { WebSocketContext } from "../../store/WebSocketContext";
 import { WebSocketContextForklift } from "../../store/WebSocketContextForklift";
-
 import { ZoomContext } from "../../store/ZoomContext";
+import { AlertsContext } from "../../store/AlertsContext"; // Import the AlertsContext
 import Activity from "../Activity/Activity";
-
+import ActivityForklift from "../ActivityForklift/ActivityForklift";
 import { Badge, Dropdown, ConfigProvider, notification } from "antd";
 import { InfoCircleOutlined } from "@ant-design/icons";
 import { IoIosNotifications } from "react-icons/io";
 import { IoMdOptions } from "react-icons/io";
-
 import classes from "./Activities.module.scss";
 
 const items = [
@@ -18,31 +17,17 @@ const items = [
     key: "1",
     label: "Severity",
     children: [
-      {
-        key: "1-1",
-        label: "High",
-      },
-      {
-        key: "1-2",
-        label: "Medium",
-      },
-      {
-        key: "1-3",
-        label: "Low",
-      },
-      {
-        type: "divider",
-      },
-      {
-        label: "Reset",
-        key: "1-4",
-      },
+      { key: "1-1", label: "High" },
+      { key: "1-2", label: "Medium" },
+      { key: "1-3", label: "Low" },
+      { type: "divider" },
+      { label: "Reset", key: "1-4" },
     ],
   },
 ];
 
 export default function Activities({ useCase }) {
-  const [alerts, setAlerts] = useState([]);
+  const { alerts, setAlerts } = useContext(AlertsContext);
   const [severity, setSeverity] = useState({
     high: true,
     medium: true,
@@ -57,23 +42,13 @@ export default function Activities({ useCase }) {
     const label = e.domEvent.target.innerText;
     setSeverity((prev) => {
       return label === "Reset"
-        ? {
-            high: true,
-            medium: true,
-            low: true,
-          }
-        : {
-            high: false,
-            medium: false,
-            low: false,
-            [label.toLowerCase()]: true,
-          };
+        ? { high: true, medium: true, low: true }
+        : { high: false, medium: false, low: false, [label.toLowerCase()]: true };
     });
   };
 
   const notifyAlert = (alert) => {
     const { severity_level, event_type } = alert;
-
     let style = {};
     let icon = <InfoCircleOutlined />;
 
@@ -93,7 +68,7 @@ export default function Activities({ useCase }) {
       default:
         break;
     }
-
+    
     notification.open({
       message: event_type,
       description: `Alert of type ${severity_level} severity detected.`,
@@ -104,6 +79,7 @@ export default function Activities({ useCase }) {
       icon,
       showProgress: true,
       pauseOnHover: true,
+      duration : 2
     });
   };
 
@@ -116,42 +92,38 @@ export default function Activities({ useCase }) {
           JSON.stringify(jsonPPE)
         );
         setAlerts((prevAlerts) => [
-          { ...cardJsonPPE, id: Date.now() },
-          ...prevAlerts.map((alert) => ({
-            ...alert,
-            className: classes.moveDown,
-          })),
+          { ...cardJsonPPE },
+          ...prevAlerts.map((alert) => ({ ...alert })),
         ]);
         notifyAlert(cardJsonPPE);
       }
     }
-    //   if (jsonForklift) {
-    //     const { json: cardJsonForklift } = jsonForklift;
-    //     if (cardJsonForklift.category === "Alert") {
-    //       setAlerts((prevAlerts) => [
-    //         { ...cardJsonForklift, id: Date.now() },
-    //         ...prevAlerts.map((alert) => ({
-    //           ...alert,
-    //           className: classes.moveDown,
-    //         })),
-    //       ]);
-    //       notification.open({
-    //         message: "New Alert",
-    //         description: `Alert of type ${cardJsonPPE.event_type} detected.`,
-    //         showProgress: true,
-    //         pauseOnHover: true,
-    //       });
-    //     }
-    //   }
+
+    
   }, [jsonPPE]);
+
+  useEffect(()=>{
+    if (jsonForklift) {
+      const { json: cardJsonForklift } = jsonForklift;
+      if (cardJsonForklift.min_distance_alert !== null) {
+        setAlerts((prevAlerts) => [
+          { ...cardJsonForklift },
+          ...prevAlerts.map((alert) => ({ ...alert })),
+        ]);
+        notification.open({
+          message: "Forklift Proximity Alert",
+          description: `Proximity to forklift less than minimum distance.`,
+          showProgress: true,
+          pauseOnHover: true,
+          duration : 2
+        });
+      }
+    }
+  },[jsonForklift])
 
   return (
     <>
-      <div
-        className={
-          isZoomed ? `${classes.zoom2}` : classes["activities-container"]
-        }
-      >
+      <div className={isZoomed ? `${classes.zoom2}` : classes["activities-container"]}>
         <div className={classes.alertHeader}>
           <h3 className={classes["activities-heading"]}>Alerts</h3>
           <div>
@@ -186,21 +158,35 @@ export default function Activities({ useCase }) {
           </div>
         </div>
 
-        <div
-          className={isZoomed ? `${classes.zoom}` : classes["activities-box"]}
-        >
+        <div className={isZoomed ? `${classes.zoom}` : classes["activities-box"]}>
           <ul className={classes["activities"]}>
-            {alerts.map((alert, index) =>
-              severity[alert.severity_level] === true ? (
-                <NavLink
-                  to={`/Alert/${alert.frame}`}
-                  end
-                  key={alert.id}
-                  target="_blank"
-                >
-                  <Activity alert={alert} severity={alert.severity_level} />
-                </NavLink>
-              ) : undefined
+            {alerts.map((alert, index) =>{
+              if(alert.event_type==="PPE Violation")
+              {
+                return severity[alert.severity_level] === true ? (
+                  <NavLink
+                    to={`/Alert/${alert.frame}`}
+                    end
+                    key={index}
+                    target="_blank"
+                  >
+                    <Activity alert={alert} severity={alert.severity_level} />
+                  </NavLink>
+                ) : undefined
+              }
+              else{
+                return <NavLink
+                to={`/Alert/${alert.frame}`}
+                end
+                key={index}
+                target="_blank"
+              >
+                <ActivityForklift alert={alert} />
+              </NavLink>
+              }
+              
+            }
+              
             )}
           </ul>
         </div>

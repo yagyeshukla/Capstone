@@ -10,53 +10,58 @@
 
 .header {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 2rem;
   color: #333;
-  font-size: 2.4rem;
+  font-size: 3rem;
   font-weight: 500;
 }
 
 .incidentContainer {
   display: flex;
-  justify-content: space-between;
+  gap: 2rem;
   margin-bottom: 20px;
-}
-
-.incidentDetails {
-  flex: 1;
-  margin-right: 2rem;
+  // align-items: flex-start;
   background-color: #fff;
-  padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  font-size: 1.6rem;
+  padding: 20px;
+  @media (max-width: 500px) {
+    flex-direction: column;
+  }
 }
 
-.incidentDetails h2 {
-  margin-bottom: 10px;
-  font-size: 2rem;
-}
-
-.incidentDetails p {
-  margin: 5px 0;
-}
-
-.incidentDetails ul {
-  padding-left: 20px;
-  list-style-type: disc;
-}
-
-.incidentImage {
+.incidentFrame {
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
+  border-right: 1px solid #eee;
+  padding-right: 1.5rem;
 }
 
-.incidentImage img {
+.incidentImage {
   max-width: 100%;
   height: auto;
-  border-radius: 8px;
+  // border-radius: 8px;
+}
+
+.incidentDetails {
+  flex: 1;
+  font-size: 1.6rem;
+}
+
+.incidentDetails h2 {
+  margin-bottom: 1rem;
+  font-size: 2.4rem;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 10px;
+  text-align: center;
+  font-weight: 400;
+}
+
+.details {
+  margin-top: 10px;
+  font-size: 1.6rem;
 }
 
 .createButton {
@@ -68,7 +73,7 @@
 
 .formContainer {
   margin-bottom: 20px;
-  width: 40%;
+  width: 50%;
   margin: auto;
 }
 
@@ -79,16 +84,31 @@
   background-color: #fff;
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  font-size: 1.6rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  font-size: 2rem;
 }
 
 .form label {
-  font-weight: bold;
+  font-weight: 400;
   margin-bottom: 5px;
 }
 
-.form input {
+.form .ant-input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1.4rem;
+}
+
+.form .ant-input-textarea {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1.4rem;
+}
+
+.form .ant-picker {
+  width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;

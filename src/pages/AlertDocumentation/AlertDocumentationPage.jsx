@@ -9,7 +9,7 @@ import { CSVLink } from "react-csv";
 import { formatDate, formatTime } from "../../utils/helper";
 import styles from "./AlertDocumentationPage.module.scss";
 
-import { Button, Form, Input, DatePicker, Table } from "antd";
+import { Button, Form, Input, DatePicker, Table, Descriptions } from "antd";
 import {
   DownloadOutlined,
   CloseOutlined,
@@ -49,6 +49,8 @@ const AlertDocumentationPage = () => {
       title: "Time",
       dataIndex: "time",
       key: "time",
+      render: (text) =>
+        formatDate(new Date(text)) + " " + formatTime(new Date(text)),
     },
     {
       title: "Corrective Actions",
@@ -59,17 +61,25 @@ const AlertDocumentationPage = () => {
 
   const generatePDF = () => {
     const doc = new jsPDF();
+    let yOffset = 20;
     doc.text("Incident Reports", 20, 10);
     incidents.forEach((incident, index) => {
-      doc.text(`Incident ${index + 1}:`, 20, 20 + index * 10);
-      doc.text(`Description: ${incident.description}`, 20, 30 + index * 10);
-      doc.text(`Location: ${incident.location}`, 20, 40 + index * 10);
-      doc.text(`Time: ${incident.time}`, 20, 50 + index * 10);
+      doc.text(`Incident ${index + 1}:`, 20, yOffset);
+      doc.text(`Description: ${incident.description}`, 20, yOffset + 10);
+      doc.text(`Location: ${incident.location}`, 20, yOffset + 20);
+      doc.text(
+        `Time: ${formatDate(new Date(incident.time))} ${formatTime(
+          new Date(incident.time)
+        )}`,
+        20,
+        yOffset + 30
+      );
       doc.text(
         `Corrective Actions: ${incident.correctiveActions}`,
         20,
-        60 + index * 10
+        yOffset + 40
       );
+      yOffset += 50;
     });
     doc.save("IncidentReports.pdf");
   };
@@ -78,43 +88,44 @@ const AlertDocumentationPage = () => {
     <>
       <Header />
       <div className={styles.container}>
-        <h1 className={styles.header}>Alert Documentation Page</h1>
+        <h1 className={styles.header}>Alert Documentation</h1>
 
         {incidentDetails && (
           <div className={styles.incidentContainer}>
+            <div className={styles.incidentFrame}>
+              <img
+                src={`../../../backend/ModelService/resources/detected_frames/${incidentDetails.frame_url}`}
+                alt="Incident Frame"
+                className={styles.incidentImage}
+              />
+            </div>
             <div className={styles.incidentDetails}>
               <h2>Incident Details</h2>
-              <p>
-                <strong>Description:</strong>{" "}
-                {incidentDetails.json.description.line1}
-              </p>
-              <p>
-                <strong>Event Type:</strong> {incidentDetails.json.event_type}
-              </p>
-              <p>
-                <strong>Violation Type:</strong>{" "}
-                {incidentDetails.json.violation_type}
-              </p>
-              <p>
-                <strong>Frame Number:</strong> {incidentDetails.json.frame}
-              </p>
-              <p>
-                <strong>Severity Level:</strong>{" "}
-                {incidentDetails.json.severity_level}
-              </p>
-              <p>
-                <strong>Location:</strong>{" "}
-                {incidentDetails.json.metadata.location}
-              </p>
-              <p>
-                <strong>Time:</strong>{" "}
-                {`${formatDate(
-                  new Date(incidentDetails.json.timestamp)
-                )} ${formatTime(new Date(incidentDetails.json.timestamp))}`}
-              </p>
-            </div>
-            <div className={styles.incidentImage}>
-              <img src={incidentDetails.frame_url} alt="Incident Frame" />
+              <Descriptions bordered column={1} className={styles.details}>
+                <Descriptions.Item label="Description">
+                  {incidentDetails.json.description.line1}
+                </Descriptions.Item>
+                <Descriptions.Item label="Event Type">
+                  {incidentDetails.json.event_type}
+                </Descriptions.Item>
+                <Descriptions.Item label="Violation Type">
+                  {incidentDetails.json.violation_type}
+                </Descriptions.Item>
+                <Descriptions.Item label="Frame Number">
+                  {alertId}
+                </Descriptions.Item>
+                <Descriptions.Item label="Severity Level">
+                  {incidentDetails.json.severity_level}
+                </Descriptions.Item>
+                <Descriptions.Item label="Location">
+                  {incidentDetails.json.metadata.location}
+                </Descriptions.Item>
+                <Descriptions.Item label="Time">
+                  {`${formatDate(
+                    new Date(incidentDetails.json.timestamp)
+                  )} ${formatTime(new Date(incidentDetails.json.timestamp))}`}
+                </Descriptions.Item>
+              </Descriptions>
             </div>
           </div>
         )}
@@ -131,7 +142,12 @@ const AlertDocumentationPage = () => {
 
         {showForm && (
           <div className={styles.formContainer}>
-            <Form className={styles.form} layout="vertical" onFinish={onSubmit}>
+            <Form
+              className={styles.form}
+              layout="vertical"
+              onFinish={onSubmit}
+              size="large"
+            >
               <Form.Item
                 label="Description"
                 name="description"
@@ -139,7 +155,7 @@ const AlertDocumentationPage = () => {
                   { required: true, message: "Please input the description!" },
                 ]}
               >
-                <Input />
+                <Input.TextArea rows={4} />
               </Form.Item>
               <Form.Item
                 label="Location"
@@ -191,7 +207,16 @@ const AlertDocumentationPage = () => {
           </div>
         )}
 
-        <h2>Incident Reports</h2>
+        <h3
+          style={{
+            fontWeight: 400,
+            fontSize: "3rem",
+            textAlign: "center",
+            margin: "2rem 0",
+          }}
+        >
+          Incident Reports
+        </h3>
         <div className={styles.tableContainer}>
           <Table
             columns={columns}
