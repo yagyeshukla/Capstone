@@ -1,26 +1,28 @@
 import React, { useState, useEffect } from "react";
-
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
-
 import { useParams } from "react-router-dom";
 import jsPDF from "jspdf";
 import { CSVLink } from "react-csv";
 import { formatDate, formatTime } from "../../utils/helper";
 import styles from "./AlertDocumentationPage.module.scss";
-
 import { Button, Form, Input, DatePicker, Table, Descriptions } from "antd";
 import {
   DownloadOutlined,
   CloseOutlined,
   PlusOutlined,
+  EditOutlined,
+  SaveOutlined,
 } from "@ant-design/icons";
+import moment from "moment";
 
 const AlertDocumentationPage = () => {
   const { alertId } = useParams();
   const [incidents, setIncidents] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [incidentDetails, setIncidentDetails] = useState(null);
+  const [editing, setEditing] = useState(false);
+  const [editForm] = Form.useForm();
 
   useEffect(() => {
     const storedIncident = localStorage.getItem(`PPE Violation ${alertId}`);
@@ -32,6 +34,28 @@ const AlertDocumentationPage = () => {
   const onSubmit = (data) => {
     setIncidents([...incidents, { ...data, id: incidents.length + 1 }]);
     setShowForm(false);
+  };
+
+  const onEditSubmit = (data) => {
+    const updatedIncident = {
+      ...incidentDetails,
+      json: {
+        ...incidentDetails.json,
+        description: { line1: data.description },
+        event_type: data.event_type,
+        violation_type: data.violation_type,
+        frame: data.frame,
+        severity_level: data.severity_level,
+        metadata: { location: data.location },
+        timestamp: data.time.format(), // Ensuring proper date format
+      },
+    };
+    setIncidentDetails(updatedIncident);
+    localStorage.setItem(
+      `PPE Violation ${alertId}`,
+      JSON.stringify(updatedIncident)
+    );
+    setEditing(false);
   };
 
   const columns = [
@@ -100,32 +124,170 @@ const AlertDocumentationPage = () => {
               />
             </div>
             <div className={styles.incidentDetails}>
-              <h2>Incident Details</h2>
-              <Descriptions bordered column={1} className={styles.details}>
-                <Descriptions.Item label="Description">
-                  {incidentDetails.json.description.line1}
-                </Descriptions.Item>
-                <Descriptions.Item label="Event Type">
-                  {incidentDetails.json.event_type}
-                </Descriptions.Item>
-                <Descriptions.Item label="Violation Type">
-                  {incidentDetails.json.violation_type}
-                </Descriptions.Item>
-                <Descriptions.Item label="Frame Number">
-                  {alertId}
-                </Descriptions.Item>
-                <Descriptions.Item label="Severity Level">
-                  {incidentDetails.json.severity_level}
-                </Descriptions.Item>
-                <Descriptions.Item label="Location">
-                  {incidentDetails.json.metadata.location}
-                </Descriptions.Item>
-                <Descriptions.Item label="Time">
-                  {`${formatDate(
-                    new Date(incidentDetails.json.timestamp)
-                  )} ${formatTime(new Date(incidentDetails.json.timestamp))}`}
-                </Descriptions.Item>
-              </Descriptions>
+              <div className={styles.editIcon}>
+                {editing ? (
+                  <div className={styles.editButtons}>
+                    <Button
+                      type="primary"
+                      icon={<SaveOutlined />}
+                      onClick={() => editForm.submit()}
+                      size="default"
+                      style={{ marginRight: "8px" }}
+                    >
+                      Save
+                    </Button>
+                    <Button
+                      type="default"
+                      icon={<CloseOutlined />}
+                      onClick={() => setEditing(false)}
+                      size="default"
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                ) : (
+                  <Button
+                    type="default"
+                    icon={<EditOutlined />}
+                    onClick={() => {
+                      setEditing(true);
+                      editForm.setFieldsValue({
+                        description: incidentDetails.json.description.line1,
+                        event_type: incidentDetails.json.event_type,
+                        violation_type: incidentDetails.json.violation_type,
+                        frame: incidentDetails.json.frame,
+                        severity_level: incidentDetails.json.severity_level,
+                        location: incidentDetails.json.metadata.location,
+                        time: moment(incidentDetails.json.timestamp),
+                      });
+                    }}
+                    size="small"
+                  >
+                    Edit
+                  </Button>
+                )}
+              </div>
+              {editing ? (
+                <Form
+                  form={editForm}
+                  layout="vertical"
+                  onFinish={onEditSubmit}
+                  className={styles.editForm}
+                >
+                  <Form.Item
+                    label="Description"
+                    name="description"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input the description!",
+                      },
+                    ]}
+                  >
+                    <Input.TextArea rows={4} />
+                  </Form.Item>
+                  <Form.Item
+                    label="Event Type"
+                    name="event_type"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input the event type!",
+                      },
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
+                  <Form.Item
+                    label="Violation Type"
+                    name="violation_type"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input the violation type!",
+                      },
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
+                  <Form.Item
+                    label="Frame Number"
+                    name="frame"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input the frame number!",
+                      },
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
+                  <Form.Item
+                    label="Severity Level"
+                    name="severity_level"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input the severity level!",
+                      },
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
+                  <Form.Item
+                    label="Location"
+                    name="location"
+                    rules={[
+                      { required: true, message: "Please input the location!" },
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
+                  <Form.Item
+                    label="Time"
+                    name="time"
+                    rules={[
+                      { required: true, message: "Please select the time!" },
+                    ]}
+                  >
+                    <DatePicker showTime />
+                  </Form.Item>
+                </Form>
+              ) : (
+                <>
+                  <div className={styles.headingContainer}>
+                    <h2 className={styles.incidentHeading}>Incident Details</h2>
+                  </div>
+
+                  <Descriptions bordered column={1} className={styles.details}>
+                    <Descriptions.Item label="Description">
+                      {incidentDetails.json.description.line1}
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Event Type">
+                      {incidentDetails.json.event_type}
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Violation Type">
+                      {incidentDetails.json.violation_type}
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Frame Number">
+                      {alertId}
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Severity Level">
+                      {incidentDetails.json.severity_level}
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Location">
+                      {incidentDetails.json.metadata.location}
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Time">
+                      {`${formatDate(
+                        new Date(incidentDetails.json.timestamp)
+                      )} ${formatTime(
+                        new Date(incidentDetails.json.timestamp)
+                      )}`}
+                    </Descriptions.Item>
+                  </Descriptions>
+                </>
+              )}
             </div>
           </div>
         )}

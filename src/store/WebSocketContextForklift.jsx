@@ -2,24 +2,48 @@ import { createContext, useEffect, useState } from "react";
 
 export const WebSocketContextForklift = createContext(null);
 
-export default function WebSocketContextForkliftProvider({ children }) {
-  const [json, setJson] = useState();
-  useEffect(() => {
-    const ws = new WebSocket("ws://localhost:8083/forklift-streaming");
+const websocketUrl = import.meta.env.VITE_WEBSOCKET_URL_FORKLIFT;
 
-    ws.onopen = function (event) {
+export default function WebSocketContextForkliftProvider({ children }) {
+  const [json, setJson] = useState(null);
+
+  useEffect(() => {
+    const ws = new WebSocket(websocketUrl);
+
+    const handleOpen = (event) => {
       console.log("Connection is open");
       ws.send("Hello, server!");
+    };
 
-      ws.onmessage = function (event) {
-        const jsonRecieved = JSON.parse(event.data);
-        setJson(jsonRecieved);
-      };
+    const handleMessage = (event) => {
+      const jsonReceived = JSON.parse(event.data);
+      setJson(jsonReceived);
+    };
+
+    const handleError = (error) => {
+      console.error("WebSocket error:", error);
+    };
+
+    const handleClose = () => {
+      console.log("WebSocket connection closed");
+    };
+
+    ws.addEventListener("open", handleOpen);
+    ws.addEventListener("message", handleMessage);
+    ws.addEventListener("error", handleError);
+    ws.addEventListener("close", handleClose);
+
+    return () => {
+      ws.removeEventListener("open", handleOpen);
+      ws.removeEventListener("message", handleMessage);
+      ws.removeEventListener("error", handleError);
+      ws.removeEventListener("close", handleClose);
+      ws.close();
     };
   }, []);
 
   return (
-    <WebSocketContextForklift.Provider value={{ json: json }}>
+    <WebSocketContextForklift.Provider value={{ json }}>
       {children}
     </WebSocketContextForklift.Provider>
   );

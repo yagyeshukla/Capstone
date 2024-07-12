@@ -1,3 +1,4 @@
+// AlertDocumentationPage.module.scss
 .container {
   padding: 2.5rem;
   margin: 0 auto;
@@ -20,7 +21,6 @@
   display: flex;
   gap: 2rem;
   margin-bottom: 20px;
-  // align-items: flex-start;
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -42,21 +42,23 @@
 .incidentImage {
   max-width: 100%;
   height: auto;
-  // border-radius: 8px;
 }
 
 .incidentDetails {
   flex: 1;
   font-size: 1.6rem;
+  position: relative;
 }
 
-.incidentDetails h2 {
-  margin-bottom: 1rem;
-  font-size: 2.4rem;
-  border-bottom: 2px solid #eee;
-  padding-bottom: 10px;
-  text-align: center;
-  font-weight: 400;
+.editIcon {
+  // position: absolute;
+  display: flex;
+  justify-content: end;
+}
+
+.editForm {
+  display: flex;
+  flex-direction: column;
 }
 
 .details {
@@ -69,6 +71,12 @@
   align-items: center;
   margin-left: auto;
   margin-bottom: 2rem;
+}
+
+.editButtons {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 1.5rem;
 }
 
 .formContainer {
@@ -93,22 +101,9 @@
   margin-bottom: 5px;
 }
 
-.form .ant-input {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 1.4rem;
-}
-
-.form .ant-input-textarea {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 1.4rem;
-}
-
+.form .ant-input,
+.form .ant-input-textarea,
 .form .ant-picker {
-  width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -135,4 +130,9 @@
   display: flex;
   gap: 10px;
   justify-content: flex-end;
+}
+.headingContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }

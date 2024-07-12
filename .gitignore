@@ -25,3 +25,6 @@ dist-ssr
 
 #Backend code
 backend/
+
+# Local environment variables
+.env

@@ -13,16 +13,17 @@ import { handlePpeClick, handleForkliftClick } from "../../utils/http";
 import LiveStreamVideoFooter from "./LiveStreamVideoFooter/LiveStreamVideoFooter";
 
 export default function LiveStream({ isZoomed, handleZoomClick, useCase }) {
-  const [frameUrl, setFrameUrl] = useState([]);
+  const [frameUrl, setFrameUrl] = useState("");
   const context =
     useCase === "forklift" ? WebSocketContextForklift : WebSocketContext;
   const { json } = useContext(context);
 
   useEffect(() => {
-    if (json) {
+    if (json && json.frame_url) {
       const { frame_url } = json;
-      const imgUrl = `../../../backend/ModelService/resources/detected_frames/${frame_url}`;
-      setFrameUrl((prevUrls) => [...prevUrls, imgUrl]);
+      // const imgUrl = `../../../backend/ModelService/resources/detected_frames/${frame_url}`;
+      const imgUrl = `../../${frame_url}`;
+      setFrameUrl(imgUrl);
     }
   }, [json]);
 
@@ -51,14 +52,15 @@ export default function LiveStream({ isZoomed, handleZoomClick, useCase }) {
       <div className={classes["video-container"]}>
         <LiveStreamVideoHeader />
         <div className={classes["video-wrapper"]}>
-          <img
-            src={frameUrl[frameUrl.length - 1]}
-            className={
-              isZoomed
-                ? `${classes["video-img"]} ${classes.zoom}`
-                : `${classes["video-img"]}`
-            }
-          />
+          {frameUrl && (
+            <img
+              src={frameUrl}
+              alt="Live Stream Frame"
+              className={`${classes["video-img"]} ${
+                isZoomed ? classes.zoom : ""
+              }`}
+            />
+          )}
           <div className={classes.streamOverlay}></div>
         </div>
         <LiveStreamVideoFooter
